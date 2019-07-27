@@ -11,6 +11,8 @@ class _InputPageState extends State<InputPage> {
   String _nombre = "";
   String _email  = "";
   String _fecha  = "";
+  String  _opcionSeleccionada = 'Volar';
+  List<String> _poderes = ['Volar','Rayos X','Super aliento','Super fuerza'];
   TextEditingController _inputFieldDateController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -29,14 +31,15 @@ class _InputPageState extends State<InputPage> {
           Divider(),
           _crearFecha(context),
           Divider(),
-
+          _crearDropdown(),
+          Divider(),
           _crearPersona()
         ],
       )
     );
   }
 
-  Widget _crearInput() {
+Widget _crearInput() {
     return TextField(
       textCapitalization: TextCapitalization.sentences, //Pone la letra capital
       decoration: InputDecoration(
@@ -78,7 +81,7 @@ class _InputPageState extends State<InputPage> {
  }
 
 
-  _crearPassword() {
+Widget  _crearPassword() {
      return TextField(
       obscureText: true,
       keyboardType: TextInputType.text,
@@ -98,13 +101,6 @@ class _InputPageState extends State<InputPage> {
   }
 
 
-
-  Widget _crearPersona() {
-   return ListTile(
-     title: Text('Nombre es : $_nombre'),
-     subtitle: Text('Email $_email'),
-   );
- }
 
   _crearFecha(BuildContext context) {
     return TextField(
@@ -142,5 +138,48 @@ class _InputPageState extends State<InputPage> {
       });
     }
   }
+
+ List<DropdownMenuItem<String>> getOpcionesDropdown() {
+   List<DropdownMenuItem<String>> lista = new List();
+   _poderes.forEach((value){
+
+     lista.add(DropdownMenuItem(
+       child: Text(value), //Lo que muestra
+       value: value.toString() //El valor
+     ));
+   
+   });
+   return lista;
+ }
+  
+ Widget _crearDropdown() {
+   return Row(
+     children: <Widget>[
+       Icon(Icons.select_all),
+       SizedBox(width: 30.0),
+       Expanded(
+           child: DropdownButton(           
+              isExpanded: true,
+              value: _opcionSeleccionada,
+              items: getOpcionesDropdown(),
+              onChanged: (opt){
+                setState(() {
+                    _opcionSeleccionada = opt;
+                });
+              },
+         ),
+       ),
+     ],
+   );
+  }
+
+  
+  Widget _crearPersona() {
+   return ListTile(
+     title: Text('Nombre es : $_nombre'),
+     subtitle: Text('Email $_email'),
+     trailing: Text(_opcionSeleccionada),
+   );
+ }
 
 }
