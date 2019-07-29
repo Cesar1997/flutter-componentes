@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
-      supportedLocales: [
+      supportedLocales: [ 
         const Locale('en','US'), //Ingles
         const Locale('es','ES') //Español
       ],
